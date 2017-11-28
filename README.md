@@ -1,2 +1,4 @@
 # mattf4
-tf work in progress
+ELB with simple instances, SGs and EFS mount point on workers
+
+WIP
