@@ -89,12 +89,19 @@ resource "aws_elb" "wip-elb" {
         instance_port = "${var.server_port}"
         instance_protocol = "http"
     }
-    health_check {
-        healthy_threshold = 2
-        unhealthy_threshold = 2
-        timeout = 3
-        interval = 30
-        target = "HTTP:${var.server_port}/"
+#    health_check {
+#        healthy_threshold = 2
+#        unhealthy_threshold = 4
+#        timeout = 10
+#        interval = 20
+#        target = "HTTP:${var.server_port}/"
+#    }
+    instances = ["${aws_instance.wip-020817.id}"]
+    idle_timeout                = 400
+    connection_draining         = true
+    connection_draining_timeout = 400
+    lifecycle {
+        create_before_destroy = true
     }
 }
 
