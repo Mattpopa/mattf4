@@ -49,6 +49,12 @@ resource "aws_security_group" "instance" {
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = -1
+        cidr_blocks = ["0.0.0.0/0"]
+    }
     lifecycle {
         create_before_destroy = true
     }
@@ -61,6 +67,12 @@ resource "aws_security_group" "instance2" {
         to_port = "${var.server_port2}"
         protocol = "tcp"
         cidr_blocks = ["78.96.101.50/32", "109.166.0.0/16"]
+    }
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = -1
+        cidr_blocks = ["0.0.0.0/0"]
     }
     lifecycle {
         create_before_destroy = true
@@ -103,7 +115,7 @@ resource "aws_security_group_rule" "allow_http_outbound" {
     type = "egress"
     security_group_id = "${aws_security_group.elb.id}"
     from_port = 0 
-    to_port = 0
-    protocol = "-1"
+    to_port = 65535 
+    protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
 }
